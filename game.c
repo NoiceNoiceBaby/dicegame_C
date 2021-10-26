@@ -77,7 +77,7 @@ int ADD_USER_TO_FILE (char* username, char* password)
     fprintf(LOGINFILE, "\n");
     fclose(LOGINFILE);
 
-    printf("%s has been validated", username);
+    printf("%s has been validated\n", username);
 
     // return
     return 0;
@@ -124,24 +124,39 @@ int CHECK_USER (char* username, char *password)
     
     fclose(LOGINFILE);
     
-    if (strcmp(userData[0].username, username) == 0)
+    int index = 0;
+    
+    while (index < sizeof(userData))
     {
-        if (strcmp(userData[0].password, password) == 0)
+        if (strcmp(userData[index].username, username) == 0)
         {
-            printf("welcome %s", username);
+            if (strcmp(userData[index].password, password) == 0)
+            {
+                printf("welcome %s\n", username);
+                sleep(1);
+                break;
+            }
+            else
+            {
+            printf("incorrect password\n");
+            clear_screen();
+            index++;
+            //return USER_LOGIN();
+            }
         }
         else
         {
-            printf("incorrect password\n");
-            USER_LOGIN();
+            printf("incorrect username\n");
+            clear_screen();
+            index++;
+            //return USER_LOGIN();
         }
     }
-    else
-    {
-        printf("incorrect username\n");
-        USER_LOGIN();
-    }
     
+    /* ---------------------------------------------------------------------
+    TO DO: FIX SO PROGRAM DOESNT CRASH WHEN AN INCORRECT USERNAME IS ENTERED 
+    --------------------------------------------------------------------- */ 
+
     // return
     return 0;
 }
